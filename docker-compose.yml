@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  host:
+    build: ./host
+    ports:
+      - "3000:3000"
+  micro-a:
+    build: ./micro-a
+    ports:
+      - "3001:3000"
+  micro-b:
+    build: ./micro-b
+    ports:
+      - "3002:3000"
