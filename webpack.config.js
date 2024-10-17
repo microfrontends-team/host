@@ -14,9 +14,6 @@ module.exports = {
     port: 3000,
     hot: false,
     liveReload: false,
-    watchOptions: {
-      ignored: /node_modules/,
-    },
   },
   module: {
     rules: [
