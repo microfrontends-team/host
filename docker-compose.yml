@@ -1,14 +1,24 @@
-version: '3.8'
 services:
   host:
-    build: ./host
+    build:
+      context: .
+    volumes:
+      - .:/app
     ports:
       - "3000:3000"
+
   micro-a:
-    build: ./micro-a
+    build:
+      context: ../micro-a
+    volumes:
+      - ../micro-a:/app
     ports:
       - "3001:3000"
+
   micro-b:
-    build: ./micro-b
+    build:
+      context: ../micro-b
+    volumes:
+      - ../micro-b:/app
     ports:
       - "3002:3000"
