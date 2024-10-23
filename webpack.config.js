@@ -1,28 +1,32 @@
 const { ModuleFederationPlugin } = require("webpack").container;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
+const path = require('path');
 
 module.exports = {
-  entry: "./src/index.js",
-  mode: "development",
+  mode: 'development',
+  entry: './src/index.js',
   output: {
-    filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: 'auto',
-  },
-  devServer: {
-    port: 3000,
-    hot: false,
-    liveReload: false,
+    filename: 'main.js',
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        use: "babel-loader",
         exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
       },
     ],
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    port: 3000,
+    hot: true,
+    liveReload: true,
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -30,13 +34,18 @@ module.exports = {
       remotes: {
         microA: 'microA@http://localhost:3001/remoteEntry.js',
       },
-      shared: { 
-        react: { singleton: true, eager: false, requiredVersion: '18' }, 
-        'react-dom': { singleton: true, eager: false, requiredVersion: '18' }
-      }
+      shared: {
+        react: {
+          singleton: true,
+        },
+        'react-dom': {
+          singleton: true,
+        },
+      },
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
+      filename: 'index.html',
     }),
   ],
 };
